@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-gray-800;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary hover:bg-primary/90 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary hover:bg-secondary/90 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200;
+  }
+}
+
+/* Add your custom animations here */
+
+/* Ken Burns effect */
+@keyframes ken-burns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.1) translate(5%, 5%);
+  }
+  100% {
+    transform: scale(1) translate(0, 0);
+  }
+}
+
+.animate-ken-burns {
+  animation: ken-burns 20s infinite;
+}
+
+.animation-delay-1s {
+  animation-delay: 1s;
+}
+
+.animation-delay-2s {
+  animation-delay: 2s;
+}
+
+.animation-delay-3s {
+  animation-delay: 3s;
+}
+
+.animation-delay-4s {
+  animation-delay: 4s;
+}
+
+.animation-delay-5s {
+  animation-delay: 5s;
+}
+
+.animation-delay-6s {
+  animation-delay: 6s;
+}
