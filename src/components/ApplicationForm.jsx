@@ -180,7 +180,10 @@ Relationship with Applicant: ${formData.relationship}
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-6 text-primary">
             Apply as RUIMUN'26 Official
           </h2>
-
+          {/* Add a disclaimer to use their mobile phones for the for filling*/}
+          <p className="text-center text-red-600 mb-4 text-sm">
+            For the best experience, please use your mobile device to fill out this form.
+          </p>
           <div className="h-1 w-24 bg-accent mx-auto mb-8"></div>
           
           <p className="text-center text-gray-600 mb-12 text-lg">
