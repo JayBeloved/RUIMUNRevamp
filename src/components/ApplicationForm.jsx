@@ -182,7 +182,7 @@ Relationship with Applicant: ${formData.relationship}
           </h2>
           {/* Add a disclaimer to use their mobile phones for the for filling*/}
           <p className="text-center text-red-600 mb-4 text-sm">
-            For the best experience, please use your mobile device to fill out this form.
+            For the best experience and functionality, please use your mobile device to fill out this form.
           </p>
           <div className="h-1 w-24 bg-accent mx-auto mb-8"></div>
           
