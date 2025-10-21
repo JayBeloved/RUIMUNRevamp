@@ -113,7 +113,7 @@ Relationship with Applicant: ${formData.relationship}
     window.location.href = mailtoLink;
     
     setIsSubmitting(false);
-    setSubmitMessage('Your email client should open with the application. Please send the email to complete your application.');
+    setSubmitMessage('Your email client should open with the application. Please send the email to complete your application. Attach you CV before sending the email');
     
     // Reset form after 5 seconds
     setTimeout(() => {
@@ -684,7 +684,6 @@ Relationship with Applicant: ${formData.relationship}
                       type="text"
                       id="high_commission"
                       name="high_commission"
-                      required
                       value={formData.high_commission}
                       onChange={handleChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition"
@@ -752,6 +751,11 @@ Relationship with Applicant: ${formData.relationship}
                 </div>
               </div>
 
+              {/* Disclaimer to attach CV before sending the mail on the email app */}
+              <p className="text-sm text-gray-600">
+                <em>Note: Please ensure you attach your CV to the email before sending your application.</em>
+              </p>
+
               {/* Submit Button */}
               <button
                 type="submit"
@@ -771,7 +775,7 @@ Relationship with Applicant: ${formData.relationship}
           </div>
 
           <p className="text-center text-gray-500 text-sm mt-8">
-            Applications will be sent to <strong>{siteConfig.email}</strong>
+            Applications and CV will be sent to <strong>{siteConfig.email}</strong>
           </p>
         </div>
       </div>
