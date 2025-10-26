@@ -1,19 +1,26 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
-import Hero from './components/Hero';
-import AboutSection from './components/AboutSection';
-import ApplicationForm from './components/ApplicationForm';
 import Footer from './components/Footer';
+import HomePage from './pages/HomePage';
+import ThemePage from './pages/ThemePage';
+import Registration from './pages/Registration';
+import RegistrationSuccess from './pages/RegistrationSuccess';
 
 function App() {
   return (
-    <div className="min-h-screen">
-      <Header />
-      <Hero />
-      <AboutSection />
-      <ApplicationForm />
-      <Footer />
-    </div>
+    <Router>
+      <div className="min-h-screen">
+        <Header />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/theme" element={<ThemePage />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route path="/registration-success" element={<RegistrationSuccess />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 

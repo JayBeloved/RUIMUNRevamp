@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { siteConfig } from '../config/site';
 import logo from '../assets/logo.png';
 
@@ -19,9 +20,11 @@ return (
                 </div>
                 
                 <div className="hidden md:flex space-x-6">
-                    <a href="#home" className="hover:text-secondary transition-colors">Home</a>
-                    <a href="#about" className="hover:text-secondary transition-colors">About</a>
-                    <a href="#apply" className="hover:text-secondary transition-colors">Apply</a>
+                    <Link to="/" className="hover:text-secondary transition-colors">Home</Link>
+                    <Link to="/theme" className="hover:text-secondary transition-colors">Theme</Link>
+                    <Link to="/registration" className="hover:text-secondary transition-colors">Register</Link>
+                    <Link to="/registration-success" className="hover:text-secondary transition-colors">Check Registration</Link>
+                    {/* <a href="#apply" className="hover:text-secondary transition-colors">Apply</a> */}
                 </div>
                 
                 {/* Mobile menu button */}

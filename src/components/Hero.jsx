@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { siteConfig } from '../config/site';
 import logo from '../assets/logo.png';
 /* import images to use in the hero section as background images slideshow with kens burns effect*/
@@ -100,12 +101,12 @@ const Hero = () => {
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#apply" className="btn-primary bg-primary hover:bg-primary/90">
-              Apply as Official
-            </a>
-            <a href="#about" className="btn-secondary bg-accent/20 hover:bg-accent/30 backdrop-blur-sm">
-              Learn More
-            </a>
+            <Link to="/theme" className="btn-primary bg-primary hover:bg-primary/90 mb-2">
+              About the Theme
+            </Link>
+            <Link to="/registration" className="btn-secondary bg-accent/20 hover:bg-accent/30 backdrop-blur-sm mb-2">
+              Delegate Registration
+            </Link>
           </div>
         </div>
       </div>

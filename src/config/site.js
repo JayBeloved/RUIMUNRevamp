@@ -7,9 +7,10 @@ export const siteConfig = {
   // Conference details
   conference: {
     year: 2026,
-    theme: "Theme to be announced",
-    date: "Date to be announced",
+    theme: "Better Together for Peace, Development, and Human Rights",
+    date: "March 30th - April 3rd, 2026",
     venue: "Redeemer's University, Ede, Osun State, Nigeria",
+    description: ""
   },
   
   // Social links (optional)
