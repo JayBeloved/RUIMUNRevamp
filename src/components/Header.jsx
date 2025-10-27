@@ -54,7 +54,7 @@ const Header = () => {
                         <NavLink to="/theme">Theme</NavLink>
                         <NavLink to="/registration">Register</NavLink>
                         <NavLink to="/registration-success">Check Registration</NavLink>
-                        <NavLink to="/export">Export</NavLink>
+                        {/* <NavLink to="/export">Export</NavLink> */}
                     </div>
                     
                     {/* Mobile menu button */}
