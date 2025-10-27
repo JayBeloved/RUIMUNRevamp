@@ -1,4 +1,3 @@
-
 export const committees = [
   {
     "id": 1,
@@ -13,9 +12,9 @@ export const committees = [
     "id": 2,
     "committee": "International Court of Justice (ICJ)",
     "countries": [
-      "Australia", "Brazil", "China", "France", "Germany", "India", "Japan",
-      "Lebanon", "Mexico", "Romania", "Slovakia", "Somalia", "South Africa",
-      "Uganda", "United States of America"
+      "Australia", "Brazil", "Cameroon", "China", "Equitorial Guinea", "France", "Germany", "India",
+      "Israel", "Japan", "Lebanon", "Mexico", "Nigeria", "Romania", "Slovakia",
+      "Somalia", "State of Palestine", "Uganda", "United Kingdom", "United States of America"
     ]
   },
   {
@@ -24,7 +23,7 @@ export const committees = [
     "countries": [
       "Algeria", "Angola", "Benin", "Botswana", "Burkina Faso", "Burundi",
       "Cabo Verde", "Cameroon", "Central African Republic", "Chad", "Comoros",
-      "Congo (Brazzaville)", "D.R. Congo (Kinshasa)", "Cote d'Ivoire", "Djibouti",
+      "Congo (Brazzaville)", "Cote d'Ivoire", "D.R. Congo (Kinshasa)", "Djibouti",
       "Egypt", "Equatorial Guinea", "Eritrea", "Eswatini", "Ethiopia", "Gabon",
       "Gambia", "Ghana", "Guinea", "Guinea-Bissau", "Kenya", "Lesotho", "Liberia",
       "Libya", "Madagascar", "Malawi", "Mali", "Mauritania", "Mauritius",
@@ -40,10 +39,10 @@ export const committees = [
     "countries": [
       "Afghanistan", "Algeria", "Angola", "Antigua and Barbuda", "Argentina",
       "Armenia", "Australia", "Austria", "Azerbaijan", "Bahrain", "Bangladesh",
-      "Belarus", "Belgium", "Bolivia", "Botswana", "Brazil", "Canada", "Cameroon",
+      "Belarus", "Belgium", "Bolivia", "Botswana", "Brazil", "Cameroon", "Canada",
       "Chile", "China", "Colombia", "Costa Rica", "Cuba", "Czech Republic",
       "Democratic Republic of Congo", "Dominican Republic", "Ecuador", "Egypt",
-      "El Salvador", "Ethiopia", "Finland", "Fiji", "France", "Georgia",
+      "El Salvador", "Ethiopia", "Fiji", "Finland", "France", "Georgia",
       "Germany", "Ghana", "Greece", "Guatemala", "Haiti", "Honduras",
       "Hungary", "India", "Indonesia", "Iran", "Iraq", "Israel", "Italy",
       "Ivory Coast", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kuwait", "Laos",
@@ -63,25 +62,7 @@ export const committees = [
     "id": 5,
     "committee": "Economic and Financial (ECOFIN)",
     "countries": [
-      "Afghanistan", "Algeria", "Angola", "Argentina", "Armenia",
-      "Antigua and Barbuda", "Australia", "Austria", "Azerbaijan", "Bahrain",
-      "Bangladesh", "Belarus", "Belgium", "Bolivia", "Botswana", "Brazil",
-      "Canada", "Cameroon", "Chile", "China", "Colombia", "Costa Rica", "Cuba",
-      "Czech Republic", "Democratic Republic of Congo", "Dominican Republic",
-      "Ecuador", "Egypt", "El Salvador", "Ethiopia", "Finland", "Fiji",
-      "France", "Georgia", "Germany", "Ghana", "Greece", "Guatemala", "Haiti",
-      "Honduras", "Hungary", "India", "Indonesia", "Iran", "Iraq", "Israel",
-      "Italy", "Ivory Coast", "Japan", "Jordan", "Kazakhstan", "Kenya",
-      "Kuwait", "Laos", "Lebanon", "Libya", "Madagascar", "Malaysia", "Malta",
-      "Mexico", "Mongolia", "Morocco", "Mozambique", "Myanmar", "Nepal",
-      "Netherlands", "New Zealand", "Nicaragua", "Nigeria", "North Korea",
-      "Norway", "Oman", "Pakistan", "Panama", "Paraguay", "Peru",
-      "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia",
-      "Saudi Arabia", "Senegal", "Singapore", "Slovakia", "South Africa",
-      "South Korea", "Spain", "Sri Lanka", "Sudan", "Sweden", "Switzerland",
-      "Syria", "Tanzania", "Thailand", "Tunisia", "Turkey", "Uganda", "Ukraine",
-      "United Arab Emirates", "United Kingdom", "United States", "Uruguay",
-      "Uzbekistan", "Venezuela", "Vietnam", "Zambia", "Zimbabwe"
+      "Afghanistan", "Algeria", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan", "Bahrain", "Bangladesh", "Belarus", "Belgium", "Bolivia", "Botswana", "Brazil", "Cameroon", "Canada", "Chile", "China", "Colombia", "Costa Rica", "Cuba", "Czech Republic", "Democratic Republic of Congo", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Ethiopia", "Fiji", "Finland", "France", "Georgia", "Germany", "Ghana", "Greece", "Guatemala", "Haiti", "Honduras", "Hungary", "India", "Indonesia", "Iran", "Iraq", "Israel", "Italy", "Ivory Coast", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kuwait", "Laos", "Lebanon", "Libya", "Madagascar", "Malaysia", "Malta", "Mexico", "Mongolia", "Morocco", "Mozambique", "Myanmar", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Nigeria", "North Korea", "Norway", "Oman", "Pakistan", "Panama", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Saudi Arabia", "Senegal", "Singapore", "Slovakia", "South Africa", "South Korea", "Spain", "Sri Lanka", "Sudan", "Sweden", "Switzerland", "Syria", "Tanzania", "Thailand", "Tunisia", "Turkey", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Venezuela", "Vietnam", "Zambia", "Zimbabwe"
     ]
   },
   {
@@ -109,7 +90,6 @@ export const committees = [
       "United States", "Uruguay", "Uzbekistan", "Venezuela", "Vietnam",
       "Zambia", "Zimbabwe"
     ]
-
   },
   {
     "id": 7,
@@ -127,13 +107,14 @@ export const committees = [
       "Kuwait", "Laos", "Lebanon", "Libya", "Madagascar", "Malaysia",
       "Mexico", "Mongolia", "Morocco", "Mozambique", "Myanmar", "Nepal",
       "Netherlands", "New Zealand", "Nicaragua", "Nigeria", "North Korea",
-      "Norway", "Oman", "Pakistan", "Panama", "Papua New Guinea", "Paraguay",
+      "Norway", "Pakistan", "Panama", "Paraguay",
       "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania",
-      "Russia", "Saudi Arabia", "Senegal", "Singapore", "Slovakia",
+      "Russia", "Saudi Arabia", "Saint Kitts and Nevis", "Saint Lucia", 
+      "Saint Vincent and the Grenadines", "Senegal", "Singapore", "Slovakia",
       "South Africa", "South Korea", "Spain", "Sri Lanka", "Sudan", "Sweden",
       "Switzerland", "Syria", "Tanzania", "Thailand", "Tunisia", "Turkey",
       "Uganda", "Ukraine", "United Arab Emirates",
-      "United Kingdom of Great Britain and Northern Ireland", "United States",
+      "United Kingdom", "United States",
       "Uruguay", "Uzbekistan", "Venezuela", "Vietnam", "Zambia", "Zimbabwe"
     ]
   },
@@ -157,7 +138,7 @@ export const committees = [
     "id": 9,
     "committee": "UN Legal",
     "countries": [
-      "Bulgaria", "Canada", "China", "Costa Rica", "Ivory Coast", "Cuba",
+      "Bulgaria", "Canada", "China", "Costa Rica", "Côte d'Ivoire", "Cuba",
       "Cyprus", "France", "Honduras", "Hungary", "Iraq", "Libya",
       "Malaysia", "Mali", "Russian Federation", "Senegal", "Spain",
       "United Kingdom of Great Britain and Northern Ireland", "United States of America"
