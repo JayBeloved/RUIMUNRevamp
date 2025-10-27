@@ -1,18 +1,25 @@
+
 import React, { useState, useEffect } from 'react';
 
 const Dashboard = () => {
   const [delegates, setDelegates] = useState([]);
   const [filteredDelegates, setFilteredDelegates] = useState([]);
   const [delegatesFilter, setDelegatesFilter] = useState('');
+  const [password, setPassword] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const passwordList = ['DeleGATEsRuimun26', 'CoSMainRuimun26', 'EdMainRuimun26', 'SecRETariaTRuimun26'];
 
   useEffect(() => {
-    fetch('/api/delegates')
-      .then(res => res.json())
-      .then(data => {
-        setDelegates(data.data);
-        setFilteredDelegates(data.data);
-      });
-  }, []);
+    if (isAuthenticated) {
+      fetch('/api/delegates')
+        .then(res => res.json())
+        .then(data => {
+          setDelegates(data.data);
+          setFilteredDelegates(data.data);
+        });
+    }
+  }, [isAuthenticated]);
 
   useEffect(() => {
     setFilteredDelegates(
@@ -23,6 +30,15 @@ const Dashboard = () => {
       )
     );
   }, [delegatesFilter, delegates]);
+
+  const handlePasswordSubmit = (e) => {
+    e.preventDefault();
+    if (passwordList.includes(password)) {
+      setIsAuthenticated(true);
+    } else {
+      alert('Incorrect password');
+    }
+  };
 
   const exportToCSV = (data, filename) => {
     if (data.length === 0) {
@@ -39,6 +55,25 @@ const Dashboard = () => {
     link.click();
     document.body.removeChild(link);
   };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <form onSubmit={handlePasswordSubmit} className="bg-white p-6 rounded shadow-md">
+          <h2 className="text-2xl font-bold mb-4">Enter Password</h2>
+          <input
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+          />
+          <button type="submit" className="bg-primary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Submit
+          </button>
+        </form>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
