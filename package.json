@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@types/uuid": "^10.0.0",
+    "firebase": "^12.4.0",
     "react": "^19.1.1",
+    "react-csv": "^2.2.2",
     "react-dom": "^19.1.1",
     "react-router-dom": "^6.23.1",
     "uuid": "^13.0.0"
