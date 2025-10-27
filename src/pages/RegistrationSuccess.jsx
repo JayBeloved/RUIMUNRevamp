@@ -64,6 +64,16 @@ const RegistrationSuccess = () => {
         {/* Other Details */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow lg:col-span-2">
           <h3 className="text-xl font-bold text-secondary border-b-2 border-secondary/20 pb-2 mb-4">📋 Other Details</h3>
+          <div className="mt-4">
+            <a
+              href="https://chat.whatsapp.com/LryxPCKCqhq1HQRy3pFWrX"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition-colors"
+            >
+              Join the Delegate WhatsApp Group
+            </a>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <p className="text-white mb-2"><strong>T-Shirt Size:</strong> {data.tshirt_size.toUpperCase()}</p>
               <p className="text-white mb-2"><strong>Experience:</strong> {data.mun_experience}</p>
@@ -92,6 +102,16 @@ const RegistrationSuccess = () => {
         <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-md shadow-md mb-6" role="alert">
           <p className="font-bold">Registration Successful!</p>
           <p>Thank you for registering. Your details are displayed below. You can also search for your registration at any time.</p>
+          <div className="mt-4">
+            <a
+              href="https://chat.whatsapp.com/LryxPCKCqhq1HQRy3pFWrX"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition-colors"
+            >
+              Join the Delegate WhatsApp Group
+            </a>
+          </div>        
         </div>
       )}
 
