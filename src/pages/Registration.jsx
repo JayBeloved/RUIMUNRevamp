@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 import { committees } from '../data/committees';
 import hero1 from '../assets/hero1.jpg';
 import hero2 from '../assets/hero2.jpg';
@@ -10,7 +9,6 @@ import hero5 from '../assets/hero5.jpg';
 import hero6 from '../assets/hero6.jpg';
 import hero7 from '../assets/hero7.jpg';
 
-// Make sure this exists or replace with a static string below!
 const siteConfig = { name: "RUIMUN" };
 
 const Registration = () => {
@@ -46,6 +44,8 @@ const Registration = () => {
   const [availableCountries1, setAvailableCountries1] = useState([]);
   const [availableCountries2, setAvailableCountries2] = useState([]);
   const [availableCountries3, setAvailableCountries3] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState('');
 
   useEffect(() => {
     if (formData.committee1) {
@@ -78,15 +78,35 @@ const Registration = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const registrationId = uuidv4();
-    const registrationData = { ...formData, id: registrationId, status: 'Unassigned' };
+    setIsSubmitting(true);
+    setSubmitMessage('');
 
-    const existingData = JSON.parse(localStorage.getItem('registrations')) || [];
-    localStorage.setItem('registrations', JSON.stringify([...existingData, registrationData]));
+    try {
+      const response = await fetch('/api/register_delegate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-    navigate(`/registration-success?id=${registrationId}`);
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitMessage('Registration successful!');
+        setTimeout(() => {
+          navigate(`/registration-success?id=${data.id}`);
+        }, 2000);
+      } else {
+        setSubmitMessage(data.error || 'An error occurred during registration.');
+      }
+    } catch (error) {
+      setSubmitMessage('An error occurred. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const heroImages = [hero1, hero2, hero3, hero4, hero5, hero6, hero7];
@@ -310,10 +330,11 @@ const Registration = () => {
             </div>
           </div>
           <div className="flex items-center justify-center mt-6">
-            <button type="submit" className="bg-primary hover:bg-opacity-80 text-white font-bold py-3 px-8 rounded-full transition-transform duration-300 transform hover:scale-105 focus:outline-none focus:shadow-outline">
-              Register
+            <button type="submit" className="bg-primary hover:bg-opacity-80 text-white font-bold py-3 px-8 rounded-full transition-transform duration-300 transform hover:scale-105 focus:outline-none focus:shadow-outline" disabled={isSubmitting}>
+              {isSubmitting ? 'Registering...' : 'Register'}
             </button>
           </div>
+          {submitMessage && <p className="text-center mt-4">{submitMessage}</p>}
         </form>
       </div>
     </div>

@@ -7,6 +7,7 @@ import ThemePage from './pages/ThemePage';
 import Registration from './pages/Registration';
 import RegistrationSuccess from './pages/RegistrationSuccess';
 import ExportPage from './pages/ExportPage';
+import Dashboard from './pages/Dashboard'; // Import the Dashboard component
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/registration" element={<Registration />} />
           <Route path="/registration-success" element={<RegistrationSuccess />} />
           <Route path="/export" element={<ExportPage />} />
+          <Route path="/admin" element={<Dashboard />} /> {/* Add the admin route */}
         </Routes>
         <Footer />
       </div>
