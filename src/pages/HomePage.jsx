@@ -8,7 +8,6 @@ const HomePage = () => {
     <>
       <Hero />
       <AboutSection />
-      <ApplicationForm />
     </>
   );
 };
