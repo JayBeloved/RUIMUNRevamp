@@ -19,18 +19,31 @@ const Dashboard = () => {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [selectedDelegate, setSelectedDelegate] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const passwordList = ['DeleGATEsRuimun26', 'CoSMainRuimun26', 'EdMainRuimun26', 'SecRETariaTRuimun26'];
+  const adminPassword = 'Ruimun@2024';
 
   useEffect(() => {
     if (isAuthenticated) {
+      setIsLoading(true);
       fetch('/api/delegates')
-        .then(res => res.json())
+        .then(res => {
+          if (!res.ok) {
+            throw new Error('Failed to fetch delegates');
+          }
+          return res.json();
+        })
         .then(data => {
           if (data.data) {
             setDelegates(data.data);
             setFilteredDelegates(data.data);
           }
+          setIsLoading(false);
+        })
+        .catch(error => {
+          setError(error.message);
+          setIsLoading(false);
         });
     }
   }, [isAuthenticated]);
@@ -54,7 +67,7 @@ const Dashboard = () => {
 
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
-    if (passwordList.includes(password)) {
+    if (password === adminPassword) {
       setIsAuthenticated(true);
     } else {
       alert('Incorrect password');
@@ -134,32 +147,38 @@ const Dashboard = () => {
               Export to CSV
             </button>
           </div>
-          <div className="overflow-x-auto">
-            <table className="min-w-full bg-white">
-              <thead className="bg-gray-100">
-                <tr>
-                  {['Name', 'Email', 'Phone', 'Affiliation', 'Actions'].map(key => 
-                    <th key={key} className="py-3 px-4 border-b text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">{key}</th>
-                  )}
-                </tr>
-              </thead>
-              <tbody>
-                {filteredDelegates.map(delegate => (
-                  <tr key={delegate._id || delegate.id} className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b text-gray-700">{delegate.name}</td>
-                    <td className="py-3 px-4 border-b text-gray-700">{delegate.email}</td>
-                    <td className="py-3 px-4 border-b text-gray-700">{delegate.phone}</td>
-                    <td className="py-3 px-4 border-b text-gray-700">{delegate.affiliation}</td>
-                    <td className="py-3 px-4 border-b">
-                      <button onClick={() => setSelectedDelegate(delegate)} className="text-primary hover:underline font-semibold">
-                        View
-                      </button>
-                    </td>
+          {isLoading ? (
+            <p className="text-center">Loading delegates...</p>
+          ) : error ? (
+            <p className="text-center text-red-500">{error}</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="min-w-full bg-white">
+                <thead className="bg-gray-100">
+                  <tr>
+                    {['Name', 'Email', 'Phone', 'Affiliation', 'Actions'].map(key => 
+                      <th key={key} className="py-3 px-4 border-b text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">{key}</th>
+                    )}
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {filteredDelegates.map(delegate => (
+                    <tr key={delegate._id || delegate.id} className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b text-gray-700">{delegate.name}</td>
+                      <td className="py-3 px-4 border-b text-gray-700">{delegate.email}</td>
+                      <td className="py-3 px-4 border-b text-gray-700">{delegate.phone}</td>
+                      <td className="py-3 px-4 border-b text-gray-700">{delegate.affiliation}</td>
+                      <td className="py-3 px-4 border-b">
+                        <button onClick={() => setSelectedDelegate(delegate)} className="text-primary hover:underline font-semibold">
+                          View
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
       <DelegateDetailsModal delegate={selectedDelegate} onClose={() => setSelectedDelegate(null)} />

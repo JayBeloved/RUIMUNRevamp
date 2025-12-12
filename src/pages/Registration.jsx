@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { committees } from '../data/committees';
 import hero1 from '../assets/hero1.jpg';
@@ -46,6 +47,28 @@ const Registration = () => {
   const [availableCountries3, setAvailableCountries3] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
+  const [emailStatus, setEmailStatus] = useState('');
+
+  const checkEmail = useCallback(async (email) => {
+    if (!email) {
+      setEmailStatus('');
+      return;
+    }
+    try {
+      const response = await fetch(`/api/check_registration?email=${encodeURIComponent(email)}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      if (data.isRegistered) {
+        setEmailStatus('This email is already registered.');
+      } else {
+        setEmailStatus('This email is available.');
+      }
+    } catch (error) {
+      setEmailStatus('Could not verify email.');
+    }
+  }, []);
 
   useEffect(() => {
     if (formData.committee1) {
@@ -75,7 +98,16 @@ const Registration = () => {
   }, [formData.committee3]);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    if (name === 'email') {
+      // Simple debounce
+      const timer = setTimeout(() => {
+        checkEmail(value);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -97,8 +129,10 @@ const Registration = () => {
       if (response.ok) {
         setSubmitMessage('Registration successful!');
         setTimeout(() => {
-          navigate(`/registration-success?id=${data.id}`);
+          navigate(`/registration-success?id=${data.delegate._id}`);
         }, 2000);
+      } else if (response.status === 409) {
+        setSubmitMessage(data.message || 'You have already registered.');
       } else {
         setSubmitMessage(data.error || 'An error occurred during registration.');
       }
@@ -108,7 +142,7 @@ const Registration = () => {
       setIsSubmitting(false);
     }
   };
-
+  
   const heroImages = [hero1, hero2, hero3, hero4, hero5, hero6, hero7];
   const theme = {
     supertitle: "6th Session of the Redeemer's University",
@@ -172,6 +206,7 @@ const Registration = () => {
               <div className="mb-4">
                 <label htmlFor="email" className="block text-gray-700 dark:text-gray-300 font-bold mb-2">Email Address</label>
                 <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required />
+                {emailStatus && <p className={`text-sm mt-1 ${emailStatus.includes('available') ? 'text-green-500' : 'text-red-500'}`}>{emailStatus}</p>}
               </div>
               <div className="mb-4">
                 <label htmlFor="phone" className="block text-gray-700 dark:text-gray-300 font-bold mb-2">Phone Number</label>
@@ -330,11 +365,11 @@ const Registration = () => {
             </div>
           </div>
           <div className="flex items-center justify-center mt-6">
-            <button type="submit" className="bg-primary hover:bg-opacity-80 text-white font-bold py-3 px-8 rounded-full transition-transform duration-300 transform hover:scale-105 focus:outline-none focus:shadow-outline" disabled={isSubmitting}>
+            <button type="submit" className="bg-primary hover:bg-opacity-80 text-white font-bold py-3 px-8 rounded-full transition-transform duration-300 transform hover:scale-105 focus:outline-none focus:shadow-outline" disabled={isSubmitting || emailStatus.includes('registered')}>
               {isSubmitting ? 'Registering...' : 'Register'}
             </button>
           </div>
-          {submitMessage && <p className="text-center mt-4">{submitMessage}</p>}
+          {submitMessage && <p className="text-center mt-4 text-lg font-semibold">{submitMessage}</p>}
         </form>
       </div>
     </div>
