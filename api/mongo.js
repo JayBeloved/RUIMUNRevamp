@@ -1,7 +1,7 @@
 
 import { MongoClient } from 'mongodb';
 
-const uri = process.env.MONGODB_URI || "mongodb+srv://johnjaylawal:Flight2023IACB@ruimundb.ifa4tuw.mongodb.net/?retryWrites=true&w=majority";
+const uri = process.env.MONGODB_URI || "mongodb+srv://Vercel-Admin-ruimunDB:RXKRbxmGP4ZD4T7G@ruimundb.ifa4tuw.mongodb.net/?retryWrites=true&w=majority";
 
 if (!uri) {
   throw new Error('MongoDB connection string is missing. Please add it to your environment variables.');
