@@ -1,7 +1,7 @@
 
 import { MongoClient } from 'mongodb';
 
-const uri = process.env.MONGODB_URI || "mongodb+srv://Vercel-Admin-ruimunDB:V6YCMzfSGJLjItNd@ruimundb.ifa4tuw.mongodb.net/?retryWrites=true&w=majority";
+const uri = process.env.MONGODB_URI || "mongodb+srv://johnjaylawal:Flight2023IACB@ruimundb.ifa4tuw.mongodb.net/?retryWrites=true&w=majority";
 
 if (!uri) {
   throw new Error('MongoDB connection string is missing. Please add it to your environment variables.');
@@ -12,7 +12,7 @@ let clientPromise;
 
 async function connectToDatabase() {
   if (client && client.topology && client.topology.isConnected()) {
-    return { client, db: client.db('ruimun_delegates') };
+    return { client, db: client.db('ruimunDB') };
   }
 
   if (process.env.NODE_ENV === 'development') {
@@ -30,7 +30,7 @@ async function connectToDatabase() {
 
   try {
     const resolvedClient = await clientPromise;
-    const db = resolvedClient.db('ruimun_delegates');
+    const db = resolvedClient.db('ruimunDB');
     console.log("Successfully connected to MongoDB!");
     return { client: resolvedClient, db };
   } catch (e) {
