@@ -1,7 +1,7 @@
 
-import { MongoClient } from 'mongodb';
+import { MongoClient, ServerApiVersion } from 'mongodb';
 
-const uri = process.env.MONGODB_URI || "mongodb+srv://Vercel-Admin-ruimunDB:RXKRbxmGP4ZD4T7G@ruimundb.ifa4tuw.mongodb.net/?retryWrites=true&w=majority";
+const uri = process.env.MONGODB_URI;
 
 if (!uri) {
   throw new Error('MongoDB connection string is missing. Please add it to your environment variables.');
@@ -10,31 +10,42 @@ if (!uri) {
 let client;
 let clientPromise;
 
+const options = {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+};
+
+if (process.env.NODE_ENV === 'development') {
+  // In development mode, use a global variable so that the value
+  // is preserved across module reloads caused by HMR (Hot Module Replacement).
+  if (!global._mongoClientPromise) {
+    client = new MongoClient(uri, options);
+    global._mongoClientPromise = client.connect();
+  }
+  clientPromise = global._mongoClientPromise;
+} else {
+  // In production mode, it's best to not use a global variable.
+  client = new MongoClient(uri, options);
+  clientPromise = client.connect();
+}
+
 async function connectToDatabase() {
-  if (client && client.topology && client.topology.isConnected()) {
-    return { client, db: client.db('ruimunDB') };
-  }
-
-  if (process.env.NODE_ENV === 'development') {
-    // In development mode, use a global variable to preserve the client across module reloads
-    if (!global._mongoClientPromise) {
-      client = new MongoClient(uri, {});
-      global._mongoClientPromise = client.connect();
-    }
-    clientPromise = global._mongoClientPromise;
-  } else {
-    // In production mode, it's best to not use a global variable.
-    client = new MongoClient(uri, {});
-    clientPromise = client.connect();
-  }
-
   try {
     const resolvedClient = await clientPromise;
     const db = resolvedClient.db('ruimunDB');
-    console.log("Successfully connected to MongoDB!");
+    // Send a ping to confirm a successful connection
+    await db.command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
     return { client: resolvedClient, db };
-  } catch (e) {
+  } catch(e) {
     console.error("Failed to connect to MongoDB", e);
+    // Invalidate the promise on error so that next time it will try to reconnect
+    if (process.env.NODE_ENV === 'development') {
+      global._mongoClientPromise = null;
+    }
     throw e;
   }
 }
