@@ -1,189 +1,116 @@
-
-import React, { useState, useEffect, useMemo } from 'react';
-import DelegateDetailsModal from '../components/DelegateDetailsModal';
-
-const StatCard = ({ title, value, icon }) => (
-  <div className="bg-white p-6 rounded-lg shadow-lg flex items-center">
-    <div className="text-4xl text-primary mr-4">{icon}</div>
-    <div>
-      <h4 className="text-gray-500 font-semibold">{title}</h4>
-      <p className="text-3xl font-bold text-gray-800">{value}</p>
-    </div>
-  </div>
-);
+import React, { useState, useEffect } from 'react';
 
 const Dashboard = () => {
-  const [delegates, setDelegates] = useState([]);
-  const [filteredDelegates, setFilteredDelegates] = useState([]);
-  const [delegatesFilter, setDelegatesFilter] = useState('');
-  const [password, setPassword] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [selectedDelegate, setSelectedDelegate] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+    const [registrations, setRegistrations] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filter, setFilter] = useState('All');
 
-  const adminPassword = 'Ruimun@2024';
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      setIsLoading(true);
-      fetch('/api/delegates')
-        .then(res => {
-          if (!res.ok) {
-            throw new Error('Failed to fetch delegates');
-          }
-          return res.json();
-        })
-        .then(data => {
-          if (data.data) {
-            setDelegates(data.data);
-            setFilteredDelegates(data.data);
-          }
-          setIsLoading(false);
-        })
-        .catch(error => {
-          setError(error.message);
-          setIsLoading(false);
-        });
-    }
-  }, [isAuthenticated]);
-
-  useEffect(() => {
-    setFilteredDelegates(
-      delegates.filter(delegate =>
-        Object.values(delegate).some(val =>
-          String(val).toLowerCase().includes(delegatesFilter.toLowerCase())
-        )
-      )
-    );
-  }, [delegatesFilter, delegates]);
-
-  const stats = useMemo(() => ({
-    total: delegates.length,
-    redeemers: delegates.filter(d => d.affiliation?.toLowerCase().includes('redeemer')).length,
-    nigerian: delegates.filter(d => d.delegate_type === 'Nigerian').length,
-    foreign: delegates.filter(d => d.delegate_type === 'Foreign').length,
-  }), [delegates]);
-
-  const handlePasswordSubmit = (e) => {
-    e.preventDefault();
-    if (password === adminPassword) {
-      setIsAuthenticated(true);
-    } else {
-      alert('Incorrect password');
-    }
-  };
-
-  const exportToCSV = (data, filename) => {
-    if (!data || data.length === 0) {
-      return;
-    }
-    const allKeys = data.reduce((keys, item) => {
-      Object.keys(item).forEach(key => {
-        if (!keys.includes(key)) {
-          keys.push(key);
-        }
-      });
-      return keys;
+    useEffect(() => {
+        const storedRegistrations = JSON.parse(localStorage.getItem('registrations')) || [];
+        setRegistrations(storedRegistrations);
     }, []);
 
-    const csvContent = "data:text/csv;charset=utf-8,"
-      + allKeys.join(",") + "\n"
-      + data.map(e => allKeys.map(key => e[key] || '').join(",")).join("\n");
+    const handleStatusChange = (id, newStatus) => {
+        const updatedRegistrations = registrations.map(reg => {
+            if (reg.id === id) {
+                return { ...reg, status: newStatus };
+            }
+            return reg;
+        });
+        setRegistrations(updatedRegistrations);
+        localStorage.setItem('registrations', JSON.stringify(updatedRegistrations));
+    };
 
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", filename);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+    const filteredRegistrations = registrations.filter(reg => {
+        const searchTermLower = searchTerm.toLowerCase();
+        const matchesSearch = (
+            reg.name.toLowerCase().includes(searchTermLower) ||
+            reg.email.toLowerCase().includes(searchTermLower) ||
+            reg.id.toLowerCase().includes(searchTermLower)
+        );
 
-  if (!isAuthenticated) {
+        const matchesFilter = filter === 'All' || reg.status === filter;
+
+        return matchesSearch && matchesFilter;
+    });
+
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <form onSubmit={handlePasswordSubmit} className="bg-white p-8 rounded-xl shadow-lg w-full max-w-sm">
-          <h2 className="text-3xl font-bold mb-6 text-center text-primary">Admin Access</h2>
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            placeholder="Enter access password"
-            className="shadow-inner appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 mb-4 leading-tight focus:outline-none focus:ring-2 focus:ring-primary"
-          />
-          <button type="submit" className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-opacity-90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50">
-            Login
-          </button>
-        </form>
-      </div>
-    );
-  }
-
-  return (
-    <div className="bg-gray-50 min-h-screen">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h2 className="text-4xl font-bold mb-8 text-center text-gray-800">Admin Dashboard</h2>
-
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <StatCard title="Total Delegates" value={stats.total} icon="👥" />
-          <StatCard title="Redeemer's University" value={stats.redeemers} icon="🎓" />
-          <StatCard title="Nigerian Delegates" value={stats.nigerian} icon="🇳🇬" />
-          <StatCard title="Foreign Delegates" value={stats.foreign} icon="🌍" />
-        </div>
-
-        {/* Delegates Table */}
-        <div className="bg-white p-6 rounded-xl shadow-lg">
-          <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-            <input
-              type="text"
-              placeholder="Filter delegates..."
-              value={delegatesFilter}
-              onChange={e => setDelegatesFilter(e.target.value)}
-              className="shadow-inner appearance-none border rounded-lg w-full sm:w-1/2 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primary"
-            />
-            <button onClick={() => exportToCSV(filteredDelegates, "delegates.csv")} className="w-full sm:w-auto bg-primary text-white font-bold py-2 px-6 rounded-lg hover:bg-opacity-90 transition-colors">
-              Export to CSV
-            </button>
-          </div>
-          {isLoading ? (
-            <p className="text-center">Loading delegates...</p>
-          ) : error ? (
-            <p className="text-center text-red-500">{error}</p>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="min-w-full bg-white">
-                <thead className="bg-gray-100">
-                  <tr>
-                    {['Name', 'Email', 'Phone', 'Affiliation', 'Actions'].map(key => 
-                      <th key={key} className="py-3 px-4 border-b text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">{key}</th>
-                    )}
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredDelegates.map(delegate => (
-                    <tr key={delegate._id || delegate.id} className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b text-gray-700">{delegate.name}</td>
-                      <td className="py-3 px-4 border-b text-gray-700">{delegate.email}</td>
-                      <td className="py-3 px-4 border-b text-gray-700">{delegate.phone}</td>
-                      <td className="py-3 px-4 border-b text-gray-700">{delegate.affiliation}</td>
-                      <td className="py-3 px-4 border-b">
-                        <button onClick={() => setSelectedDelegate(delegate)} className="text-primary hover:underline font-semibold">
-                          View
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+        <div className="container mx-auto p-4">
+            <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-md shadow-md mb-6" role="alert">
+                <p className="font-bold">System Maintenance</p>
+                <p>We are currently performing updates to improve our services. Some features may be temporarily unavailable. We appreciate your patience.</p>
             </div>
-          )}
+
+            <h1 className="text-3xl font-bold mb-6 text-primary">Admin Dashboard</h1>
+
+            <div className="mb-6 flex flex-col md:flex-row gap-4 items-center">
+                <input
+                    type="text"
+                    placeholder="Search by name, email, or ID..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="shadow-sm appearance-none border rounded w-full md:w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primary/50"
+                />
+                <select
+                    value={filter}
+                    onChange={(e) => setFilter(e.target.value)}
+                    className="shadow-sm border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primary/50"
+                >
+                    <option>All</option>
+                    <option>Pending</option>
+                    <option>Paid</option>
+                    <option>Cancelled</option>
+                </select>
+            </div>
+
+            <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg shadow">
+                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead className="bg-gray-50 dark:bg-gray-900">
+                        <tr>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Name</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Email</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">ID</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Committee</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                        {filteredRegistrations.map(reg => (
+                            <tr key={reg.id} className="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                <td className="px-6 py-4 whitespace-nowrap">{reg.name}</td>
+                                <td className="px-6 py-4 whitespace-nowrap">{reg.email}</td>
+                                <td className="px-6 py-4 whitespace-nowrap">{reg.id}</td>
+                                <td className="px-6 py-4 whitespace-nowrap">{reg.committee1}</td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${reg.status === 'Paid' ? 'bg-green-100 text-green-800' : reg.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}`}>
+                                        {reg.status}
+                                    </span>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                    <select 
+                                        value={reg.status}
+                                        onChange={(e) => handleStatusChange(reg.id, e.target.value)}
+                                        className="shadow-sm border rounded py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                    >
+                                        <option>Pending</option>
+                                        <option>Paid</option>
+                                        <option>Cancelled</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+
+            {filteredRegistrations.length === 0 && (
+                <div className="text-center py-10">
+                    <p className="text-gray-500">No registrations found.</p>
+                </div>
+            )}
         </div>
-      </div>
-      <DelegateDetailsModal delegate={selectedDelegate} onClose={() => setSelectedDelegate(null)} />
-    </div>
-  );
+    );
 };
 
 export default Dashboard;
