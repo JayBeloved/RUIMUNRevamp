@@ -16,11 +16,6 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/theme" element={<ThemePage />} />
-          <Route path="/registration" element={<Registration />} />
-          <Route path="/registration-success" element={<RegistrationSuccess />} />
-          {/* <Route path="/export" element={<ExportPage />} /> */}
-          <Route path="/admin" element={<Dashboard />} /> {/* Add the admin route */}
         </Routes>
         <Footer />
       </div>

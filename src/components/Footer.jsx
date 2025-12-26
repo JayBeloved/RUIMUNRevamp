@@ -21,23 +21,18 @@ return (
                     <h3 className="text-xl font-bold mb-4">Quick Links</h3>
                     <ul className="space-y-2 text-sm">
                         <li>
-                            <a href="#home" className="text-white/80 hover:text-white transition-colors">
+                            <a href="https://ruimunconference.online" className="text-white/80 hover:text-white transition-colors">
                                 Home
                             </a>
                         </li>
                         <li>
-                            <a href="#about" className="text-white/80 hover:text-white transition-colors">
+                            <a href="https://ruimunconference.online/about" className="text-white/80 hover:text-white transition-colors">
                                 About Conference
                             </a>
                         </li>
                         <li>
-                            <a href="#apply" className="text-white/80 hover:text-white transition-colors">
-                                Apply as Official
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://ruimun.org" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-white transition-colors">
-                                Main RUIMUN Website
+                            <a href="https://ruimunconference.online/about" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-white transition-colors">
+                                NEW SITE
                             </a>
                         </li>
                     </ul>
@@ -76,7 +71,7 @@ return (
             <div className="border-t border-white/20 pt-8 text-center text-sm text-white/60">
                 <p>© {currentYear} RUIMUN. All rights reserved.</p>
                 <p className="mt-2">
-                    RUIMUN'26 Conference • Main site: <a href="https://ruimun.org" className="underline hover:text-white">ruimun.org</a>
+                    RUIMUN'26 Conference • Main site: <a href="https://ruimunconference.online/" className="underline hover:text-white">ruimun.org</a>
                 </p>
                 <p className="mt-2">
                     Built <a href="https://johnjaylawal.site" className="underline hover:text-white">John J. Lawal</a>
